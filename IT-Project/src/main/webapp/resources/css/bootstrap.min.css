@@ -1818,9 +1818,9 @@ pre code {
 }
 
 .container {
-    padding-right: 15px;
-    padding-left: 15px;
-    margin-right: auto;
+    padding-right: 150px;
+    padding-left: 150px;
+    margin-right: 150px;
     margin-left: auto
 }
 
