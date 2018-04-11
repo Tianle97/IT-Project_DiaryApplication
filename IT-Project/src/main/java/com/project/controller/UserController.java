@@ -1,5 +1,7 @@
 package com.project.controller;
 
+import java.util.ArrayList;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -8,14 +10,16 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.project.diary.Diary;
 import com.project.model.User;
+import com.project.repository.DiaryRepository;
 import com.project.service.SecurityServiceImp;
 import com.project.service.UserServiceImp;
 import com.project.validator.UserValidator;
 
 @Controller
 public class UserController {
-    @Autowired
+	@Autowired
     private UserServiceImp userServiceImp;
 
     @Autowired
@@ -23,6 +27,9 @@ public class UserController {
 
     @Autowired
     private UserValidator userValidator;
+    
+    @Autowired
+    private DiaryRepository diaryService;
 
     @RequestMapping(value = "/registration", method = RequestMethod.GET)
     public String registration(Model model) {
@@ -60,6 +67,36 @@ public class UserController {
     @RequestMapping(value = {"/", "/welcome"}, method = RequestMethod.GET)
     public String welcome(Model model) {
         return "welcome";
+    }@RequestMapping(value = {"/diary"}, method = RequestMethod.GET)
+    public String note(Model model) {
+        return "diary";
     }
-
+    
+    @RequestMapping(value = {"/diary"}, method = RequestMethod.POST)
+    public String notepost(@ModelAttribute("diaryForm") Diary diary, Model m)
+    {
+	    System.out.println("Name: " + diary.getTitle());
+	    System.out.println("Name: " + diary.getNote());
+	   // String title = diary.getTitle();
+	   // @SuppressWarnings("unused")
+	   //String content = diary.getNote();
+	    m.addAttribute("title", diary);
+	    m.addAttribute("note", diary);
+	    diaryService.save(diary);
+	    return "listDiary";
+    }
+    
+    @RequestMapping(value = {"/listDiary"})
+    public String listDiary(@ModelAttribute("title") Diary diary, Model m)
+    {
+	    String title = diary.getTitle();
+	    ArrayList<Diary> titles = diaryService.findByTitle(title);
+	    m.addAttribute("titles", title);
+	    m.addAttribute("title", diary);
+	    System.out.println("Name: " + diary.getTitle());
+	    System.out.println("Name: " + titles);
+	    diaryService.save(diary);
+	    return "listDiary";
+    }
+    
 }
