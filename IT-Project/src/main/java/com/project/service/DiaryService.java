@@ -20,7 +20,7 @@ public class DiaryService implements DiaryServiceImp{
 	}
 
 	@Override
-	public Diary findByuser(String username) {
+	public ArrayList<Diary> findByuser(String username) {
 		return diaryRepository.findByUsername(username);
 	}
 
@@ -28,5 +28,4 @@ public class DiaryService implements DiaryServiceImp{
 	public ArrayList<Diary> findBytitle(String title) {
 		return diaryRepository.findByTitle(title);
 	}
-
 }

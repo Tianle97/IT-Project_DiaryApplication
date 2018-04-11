@@ -1,6 +1,11 @@
 package com.project.controller;
 
+import java.security.Principal;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -9,6 +14,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.project.diary.Diary;
 import com.project.model.User;
@@ -42,7 +48,8 @@ public class UserController {
     public String registration(@ModelAttribute("userForm") User userForm, BindingResult bindingResult, Model model) {
         userValidator.validate(userForm, bindingResult);
 
-        if (bindingResult.hasErrors()) {
+        if (bindingResult.hasErrors())
+        {
             return "registration";
         }
 
@@ -67,36 +74,58 @@ public class UserController {
     @RequestMapping(value = {"/", "/welcome"}, method = RequestMethod.GET)
     public String welcome(Model model) {
         return "welcome";
-    }@RequestMapping(value = {"/diary"}, method = RequestMethod.GET)
+    }
+    
+    @RequestMapping(value = {"/diary"}, method = RequestMethod.GET)
     public String note(Model model) {
         return "diary";
     }
     
     @RequestMapping(value = {"/diary"}, method = RequestMethod.POST)
-    public String notepost(@ModelAttribute("diaryForm") Diary diary, Model m)
-    {
+    public String notepost(@ModelAttribute("diaryForm") Diary diary, Model m, Principal user) {
 	    System.out.println("Name: " + diary.getTitle());
 	    System.out.println("Name: " + diary.getNote());
 	   // String title = diary.getTitle();
 	   // @SuppressWarnings("unused")
 	   //String content = diary.getNote();
-	    m.addAttribute("title", diary);
+	    @SuppressWarnings("unused")
+		Date d = new Date();
+		diary.setDate(new String(new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime())));
+		diary.setUsername(user.getName());
+		m.addAttribute("title", diary);
 	    m.addAttribute("note", diary);
 	    diaryService.save(diary);
-	    return "listDiary";
+	    return "redirect:listDiary";
+    }     
+
+    @RequestMapping(value="listDiary" , method = RequestMethod.GET)
+	public String getOrders(Model model, Principal user){
+		ArrayList<Diary> diarys = diaryService.findByUsername(user.getName());
+		model.addAttribute("diary",diarys);
+		return "listDiary";
+	}
+    
+    @RequestMapping(value = {"/editDiary"},method = RequestMethod.GET)
+    public String editDiary(@RequestParam("title") String title, Model m, Principal user) {
+    	ArrayList<Diary> diarys = diaryService.findByUsername(user.getName());
+    	for (Diary d : diarys){
+    		if(d.getTitle().equals(title))
+    			m.addAttribute("diary", d);
+    	}
+	    return "editDiary";
     }
     
-    @RequestMapping(value = {"/listDiary"})
-    public String listDiary(@ModelAttribute("title") Diary diary, Model m)
-    {
-	    String title = diary.getTitle();
-	    ArrayList<Diary> titles = diaryService.findByTitle(title);
-	    m.addAttribute("titles", title);
-	    m.addAttribute("title", diary);
-	    System.out.println("Name: " + diary.getTitle());
-	    System.out.println("Name: " + titles);
+    @RequestMapping(value = {"/editDiary"},method = RequestMethod.POST)
+    public String editDiary(@ModelAttribute("diary") Diary diary, Principal user) {
+    	ArrayList<Diary> diarys = diaryService.findByUsername(user.getName());
+    	for (Diary d : diarys){
+    		if(d.getTitle().equals(diary.getTitle()))
+    			diaryService.delete(d);
+    	}
+		Date d = new Date();
+		diary.setDate(new String(new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime())));
+		diary.setUsername(user.getName());
 	    diaryService.save(diary);
-	    return "listDiary";
+	    return "redirect:listDiary";
     }
-    
 }

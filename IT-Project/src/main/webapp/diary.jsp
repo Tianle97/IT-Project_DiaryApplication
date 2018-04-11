@@ -18,7 +18,7 @@
 	    <meta name="description" content="">
 	    <meta name="author" content="">
 	
-	    <title>Welcome to Mydiary</title>
+	    <title>Welcome to MyDiary</title>
 	
 	    <link href="${contextPath}/resources/css/bootstrap.min.css" rel="stylesheet">
 	</head>
@@ -32,24 +32,20 @@
 				</c:forEach>
 		 	</ol>
 		  </div>
-	   <div class="dropdown">
+	  <div class="dropdown">
 		   <c:if test="${pageContext.request.userPrincipal.name != null}">
 		        <form id="logoutForm" method="POST" action="${contextPath}/logout">
 		            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 		        </form>
-		        <form id="new" method="POST" action="${contextPath}/diary">
-		            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-		        </form>
-		        <form id="list" method="POST" action="${contextPath}/listDiary">
+		        <form id="new" method="GET" action="${contextPath}/diary">
 		            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 		        </form>
 	            <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Explore <span class="caret"></span></button>
 			    <ul class="dropdown-menu">
 		    	  <li><a onclick="document.forms['new'].submit()">New</a></li>
-			      <li><a onclick="document.forms['list'].submit()">my diary</a></li>
+			      <li><a href="listDiary">my diary</a></li>
 			      <li><a onclick="document.forms['logoutForm'].submit()">Logout</a></li>
 			    </ul>
-		       
 		    </c:if>
 	  	</div>
 	  	<form method="POST" modelAttribute="diaryForm" action="${contextPath}/diary">

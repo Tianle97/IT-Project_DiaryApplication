@@ -20,8 +20,8 @@
 	
 	<body>
 		<div class="container">
-		<h2 style="color:#FF6347;position: relative;left: 60px;top: 180px;
-			font-size:40px;"><b>^_^Welcome to diary~</b></h2>
+		<h2 style="color:#FF6347; position: relative; left: 60px; top: 180px;
+			font-size:40px;"><b>^_^Welcome to MyDiary~</b></h2>
 		    <form method="POST" action="${contextPath}/login" class="form-signin" >
 		        <span class="form-heading"><b>Log-in Please</b></span>
 		        <div class="form-group ${error != null ? 'has-error' : ''}">
