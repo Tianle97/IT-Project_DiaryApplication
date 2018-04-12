@@ -115,7 +115,7 @@ public class UserController {
 	    return "editDiary";
     }
     
-    @RequestMapping(value = {"/editDiary"},method = RequestMethod.POST)
+    @RequestMapping(value = {"/editDiary"},method = RequestMethod.POST) 
     public String editDiary(@ModelAttribute("diary") Diary diary, Principal user) {
     	ArrayList<Diary> diarys = diaryService.findByUsername(user.getName());
     	for (Diary d : diarys){

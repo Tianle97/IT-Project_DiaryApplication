@@ -14,16 +14,11 @@
 	    <meta charset="utf-8">
 	    <meta http-equiv="X-UA-Compatible" content="IE=edge">
 	    <meta name="viewport" content="width=device-width, initial-scale=1">
-	    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-	    <meta name="description" content="">
-	    <meta name="author" content="">
-	
 	    <title>Welcome to MyDiary</title>
-	
 	    <link href="${contextPath}/resources/css/bootstrap.min.css" rel="stylesheet">
 	</head>
 	<body>
-	<div class="container">
+	<!--<div class="container">
 		<button type="button" class="btn btn-info" data-toggle="collapse" data-target="#demo">ListDiary</button>
 		  <div id="demo" class="collapse">
 		  	<ol>
@@ -31,7 +26,7 @@
 					<li>${title}</li>
 				</c:forEach>
 		 	</ol>
-		  </div>
+		  </div> -->
 	  <div class="dropdown">
 		   <c:if test="${pageContext.request.userPrincipal.name != null}">
 		        <form id="logoutForm" method="POST" action="${contextPath}/logout">
@@ -54,9 +49,8 @@
 		  	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 		  	<input class="btn btn-lg btn-primary btn-block" type="submit" value="Save"/>
 		</form>
-	</div>
-	<!-- /container -->
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-	<script src="${contextPath}/resources/js/bootstrap.min.js"></script>
+		<!-- /container -->
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+		<script src="${contextPath}/resources/js/bootstrap.min.js"></script>
 	</body>
 </html>
