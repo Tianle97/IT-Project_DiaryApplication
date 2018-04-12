@@ -85,9 +85,9 @@ public class UserController {
     public String notepost(@ModelAttribute("diaryForm") Diary diary, Model m, Principal user) {
 	    System.out.println("Name: " + diary.getTitle());
 	    System.out.println("Name: " + diary.getNote());
-	   // String title = diary.getTitle();
-	   // @SuppressWarnings("unused")
-	   //String content = diary.getNote();
+	    //String title = diary.getTitle();
+	    //@SuppressWarnings("unused")
+	    //String content = diary.getNote();
 	    @SuppressWarnings("unused")
 		Date d = new Date();
 		diary.setDate(new String(new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime())));
@@ -122,10 +122,32 @@ public class UserController {
     		if(d.getTitle().equals(diary.getTitle()))
     			diaryService.delete(d);
     	}
-		Date d = new Date();
 		diary.setDate(new String(new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime())));
 		diary.setUsername(user.getName());
 	    diaryService.save(diary);
+	    return "redirect:listDiary";
+    }
+    
+    @RequestMapping(value = {"/deleteDiary"},method = RequestMethod.GET)
+    public String deleteDiary(@RequestParam("title") String title, Model m, Principal user) {
+    	ArrayList<Diary> diarys = diaryService.findByUsername(user.getName());
+    	for (Diary d : diarys){
+    		if(d.getTitle().equals(title))
+    			m.addAttribute("diary", d);
+    	}
+	    return "deleteDiary";
+    } 
+    
+    @RequestMapping(value = {"/deleteDiary"},method = RequestMethod.POST) 
+    public String deleteDiary(@ModelAttribute("diary") Diary diary, Principal user) {
+    	ArrayList<Diary> diarys = diaryService.findByUsername(user.getName());
+    	for (Diary d : diarys)
+    	{
+	    	if(d.getTitle().equals(diary.getTitle()) && d.getNote().equals(diary.getNote()))
+	    	{
+	    		diaryService.delete(d);
+	    	}
+    	}
 	    return "redirect:listDiary";
     }
 }

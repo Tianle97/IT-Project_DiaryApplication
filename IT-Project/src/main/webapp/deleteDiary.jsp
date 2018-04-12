@@ -22,13 +22,14 @@
 <body>
 	<div class="container">
 		<h2 style="color:#FF6347; position: relative;
-				font-size:40px;"><b>Edit Your Diary Please</b></h2>
-		<form modelAttribute="diary" method="POST" action="${contextPath}/editDiary">
+				font-size:40px;"><b>Make sure you want to delete this diary</b></h2>
+		<form modelAttribute="diary" method="POST" action="${contextPath}/deleteDiary">
 		  	<input name="title" type="text" class="form-control" path="title" value="${diary.title}" readOnly/>
 		  	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-		  	<textarea name="note" class="form-control" rows="20"  path="note">${diary.note}</textarea>
+		  	<textarea name="note" class="form-control" rows="20"  path="note" readOnly>${diary.note}</textarea>
 		  	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-		  	<input class="btn btn-lg btn-primary btn-block" type="submit" value="Save"/>
+		  	<input class="btn btn-lg btn-primary btn-block" type="button" onclick="window.location.href = 'listDiary'" value="Cancel"/>
+		  	<input class="btn btn-lg btn-primary btn-block" type="submit" value="delete"/>
 	</form>
 	</div>
 </body>
