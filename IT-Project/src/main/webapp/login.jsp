@@ -27,7 +27,7 @@
 		        <div class="form-group ${error != null ? 'has-error' : ''}">
 		            <span>${message}</span>
 		            <input name="username" type="text" class="form-control" placeholder="Username"
-		                   autofocus="true"/>
+		                   autofocus="tr	ue"/>
 		            <i class="fa fa-user"></i>
 		            <input name="password" type="password" class="form-control" placeholder="Password"/>
 		            <i class="fa fa-lock"></i>
